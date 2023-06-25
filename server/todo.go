@@ -2,7 +2,7 @@ package server
 
 import "strings"
 
-var todoList []string
+var TodoList map[string][]string
 
 func getCmd(input string) string {
 	inputArr := strings.Split(input, " ")
@@ -17,13 +17,13 @@ func getMessage(input string) string {
 	return strings.Join(inputArr[1:], " ")
 }
 
-func updateTodoList(input string) {
-	tmpList := todoList
-	todoList = []string{}
+func updateTodoList(userID, task string) {
+	tmpList := TodoList[userID]
+	TodoList[userID] = []string{}
 	for _, val := range tmpList {
-		if val == input {
+		if val == task {
 			continue
 		}
-		todoList = append(todoList, val)
+		TodoList[userID] = append(TodoList[userID], val)
 	}
 }

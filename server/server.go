@@ -20,18 +20,18 @@ var upgrader = websocket.Upgrader{
 	},
 }
 
-func handleCmd(cmd, msg string, ws *websocket.Conn) {
+func handleCmd(userID, cmd, msg string, ws *websocket.Conn) {
 	switch cmd {
 	case "add":
 		if msg == "" {
 			log.Println("Empty task...")
 			break
 		}
-		todoList = append(todoList, msg)
+		TodoList[userID] = append(TodoList[userID], msg)
 	case "done":
-		updateTodoList(msg)
+		updateTodoList(userID, msg)
 	case "clear":
-		todoList = []string{}
+		TodoList[userID] = []string{}
 	case "close":
 		// Send a close message before closing the connection
 		err := ws.WriteMessage(
@@ -49,14 +49,41 @@ func handleCmd(cmd, msg string, ws *websocket.Conn) {
 	}
 }
 
-func renderTodoList() []byte {
+func renderTodoList(userID string) []byte {
 	// Create a string with all the todos
 	output := "Current Todos: \n\n"
-	for i, todo := range todoList {
+	for i, todo := range TodoList[userID] {
 		output += fmt.Sprintf("%d. %s\n", i+1, todo)
 	}
 	output += "\n----------------------------------------"
 	return []byte(output)
+}
+
+func handleConnection(ws *websocket.Conn) {
+	defer ws.Close()
+	clientID := ws.RemoteAddr()
+	userID := fmt.Sprintf("%s", clientID)
+	for {
+		//read data from ws
+		log.Printf("Waiting for input from %s", clientID)
+		mt, message, err := ws.ReadMessage()
+		if err != nil {
+			log.Println("read:", err)
+			break
+		}
+		log.Printf("recv: %s from %s", message, clientID)
+		input := string(message)
+		cmd := getCmd(input)
+		msg := getMessage(input)
+		handleCmd(userID, cmd, msg, ws)
+		resp := renderTodoList(userID)
+		//write ws data
+		err = ws.WriteMessage(mt, resp)
+		if err != nil {
+			log.Println("write:", err)
+			break
+		}
+	}
 }
 
 func ws(c *gin.Context) {
@@ -66,28 +93,7 @@ func ws(c *gin.Context) {
 		log.Print("upgrade:", err)
 		return
 	}
-	defer ws.Close()
-	for {
-		//read data from ws
-		mt, message, err := ws.ReadMessage()
-		if err != nil {
-			log.Println("read:", err)
-			break
-		}
-		input := string(message)
-		log.Printf("recv: %s", message)
-		cmd := getCmd(input)
-		msg := getMessage(input)
-		handleCmd(cmd, msg, ws)
-		resp := renderTodoList()
-		//write ws data
-		err = ws.WriteMessage(mt, resp)
-		if err != nil {
-			log.Println("write:", err)
-			break
-		}
-
-	}
+	go handleConnection(ws)
 }
 
 func Run() {
