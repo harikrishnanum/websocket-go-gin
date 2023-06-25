@@ -9,16 +9,6 @@ Websockets are a communication protocol that provides full-duplex communication 
 
 The purpose of websockets is to overcome the limitations of traditional request-response protocols by establishing a persistent connection that allows continuous, low-latency data transfer. Websockets are particularly useful for applications that require real-time updates or instant communication between the client and server.
 
-## Project Structure
-
-- `server` folder: Contains the server files for the TODO application.
-  - `todo.go`: The Go file that defines the TODO struct and methods for adding, removing, and marking tasks as done.
-  - `server.go`: The main Go server file that handles the websocket communication and HTTP requests.
-- `frontend` folder: Contains the frontend files for the TODO application.
-  - `index.html`: The frontend HTML file for the TODO application.
-  - `style.css`: The CSS file for styling the TODO application.
-  - `script.js`: JavaScript code for handling user interactions and communicating with the websocket server.
-
 ## Run Instructions
 
 To run the project, follow these steps:

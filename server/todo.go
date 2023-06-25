@@ -1,6 +1,9 @@
 package server
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
 var TodoList map[string][]string
 
@@ -26,4 +29,14 @@ func updateTodoList(userID, task string) {
 		}
 		TodoList[userID] = append(TodoList[userID], val)
 	}
+}
+
+func renderTodoList(userID string) []byte {
+	// Create a string with all the todos
+	output := "Current Todos: \n\n"
+	for i, todo := range TodoList[userID] {
+		output += fmt.Sprintf("%d. %s\n", i+1, todo)
+	}
+	output += "\n----------------------------------------"
+	return []byte(output)
 }
