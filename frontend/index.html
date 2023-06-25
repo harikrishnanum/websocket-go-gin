@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Go Websockets TODO example</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+
+<body>
+    <div>
+        <h1>Go websockets TODO example</h1>
+        <p><u>Available commands for todo app</u></p>
+        <ul style="list-style-type: none; padding: 0;">
+            <li style="text-align: center;">add [task]</li>
+            <li style="text-align: center;">done [task]</li>
+            <li style="text-align: center;">clear</li>
+            <li style="text-align: center;">close</li>
+        </ul>
+        <input id="input" type="text" size="40" onkeydown="handleKeyDown(event)" />
+        <button onclick="send()">Send</button>
+        <pre id="output"></pre>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
