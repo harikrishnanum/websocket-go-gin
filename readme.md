@@ -24,6 +24,7 @@ To run the project, follow these steps:
    go run main.go
    ```
 5. Open the `index.html` file in a web browser.
+6. Go to [http://localhost:8448/todos](http://localhost:8448/todos) to view the complete TODOs list.
 
 ## Credits
 
