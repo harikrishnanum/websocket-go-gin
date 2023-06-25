@@ -10,7 +10,9 @@ The purpose of websockets is to overcome the limitations of traditional request-
 
 ## Project Structure
 
-- `main.go`: The main Go server file that handles the websocket communication and HTTP requests.
+- `server` folder: Contains the server files for the TODO application.
+  - `todo.go`: The Go file that defines the TODO struct and methods for adding, removing, and marking tasks as done.
+  - `server.go`: The main Go server file that handles the websocket communication and HTTP requests.
 - `frontend` folder: Contains the frontend files for the TODO application.
   - `index.html`: The frontend HTML file for the TODO application.
   - `style.css`: The CSS file for styling the TODO application.
