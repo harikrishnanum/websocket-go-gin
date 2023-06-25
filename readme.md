@@ -2,6 +2,7 @@
 
 This project demonstrates a simple TODO application using websockets in Go. The application allows users to perform operations like adding tasks, marking tasks as done, clearing tasks, and closing the websocket connection, all without the need to refresh the page.
 
+![TODO Application](./demo.jpg)
 ## Overview
 
 Websockets are a communication protocol that provides full-duplex communication channels over a single TCP connection. Unlike traditional HTTP requests, which are stateless and require a request-response cycle for each interaction, websockets enable real-time, bidirectional communication between the client (browser) and the server.
